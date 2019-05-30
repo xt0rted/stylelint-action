@@ -2,8 +2,10 @@ const stylelint = require("stylelint"); /* eslint-disable-line import/no-extrane
 const request = require("./request");
 
 const {
-  GITHUB_EVENT_PATH, GITHUB_SHA, GITHUB_TOKEN, GITHUB_WORKSPACE, RUN_DIR, LINT_FILES,
+  GITHUB_EVENT_PATH, GITHUB_SHA, GITHUB_TOKEN, GITHUB_WORKSPACE, RUN_DIR,
 } = process.env;
+const filesToLint = process.argv.slice(2);
+
 const event = require(GITHUB_EVENT_PATH); /* eslint-disable-line import/no-dynamic-require */
 const { repository } = event;
 const { owner: { login: owner } } = repository;
@@ -47,7 +49,7 @@ async function createCheck() {
 
 async function runStylelint() {
   const report = await stylelint.lint({
-    files: LINT_FILES,
+    files: filesToLint,
   });
 
   const { results } = report;
