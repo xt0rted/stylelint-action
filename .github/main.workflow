@@ -1,9 +1,18 @@
 workflow "Push actions" {
   on = "push"
-  resolves = ["Run ESLint"]
+  resolves = [
+    "Install dependencies",
+    "Run ESLint"
+  ]
+}
+
+action "Install dependencies" {
+  uses = "docker://node:12-alpine"
+  runs = "npm ci"
 }
 
 action "Run ESLint" {
-  uses = "gimenete/eslint-action@master"
+  uses = "xt0rted/eslint-action@master"
+  needs = ["Install dependencies"]
   secrets = ["GITHUB_TOKEN"]
 }
