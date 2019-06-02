@@ -1,4 +1,4 @@
-const stylelint = require("stylelint"); /* eslint-disable-line import/no-extraneous-dependencies */
+const stylelint = require("stylelint");
 const request = require("./request");
 
 const {

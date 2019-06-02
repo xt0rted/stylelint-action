@@ -1,7 +1,7 @@
 {
   "name": "stylelint-action",
   "private": true,
-  "main": "index.js",
+  "main": "run.js",
   "scripts": {
     "lint": "eslint ./",
     "lint:fix": "eslint --fix ./",
@@ -13,5 +13,8 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
     "stylelint": "^10.0.1"
+  },
+  "peerDependencies": {
+    "stylelint": ">=9.0.0"
   }
 }
