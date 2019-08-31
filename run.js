@@ -2,7 +2,7 @@ const stylelint = require("stylelint");
 const request = require("./request");
 
 const {
-  GITHUB_EVENT_PATH, GITHUB_SHA, GITHUB_TOKEN, GITHUB_WORKSPACE, RUN_DIR,
+  GITHUB_ACTION, GITHUB_EVENT_PATH, GITHUB_SHA, GITHUB_TOKEN, GITHUB_WORKSPACE, RUN_DIR,
 } = process.env;
 const filesToLint = process.argv.slice(2);
 
@@ -10,8 +10,6 @@ const event = require(GITHUB_EVENT_PATH); /* eslint-disable-line import/no-dynam
 const { repository } = event;
 const { owner: { login: owner } } = repository;
 const { name: repo } = repository;
-
-const checkName = "Stylelint check";
 
 const headers = {
   Accept: "application/vnd.github.antiope-preview+json",
@@ -33,7 +31,7 @@ if (RUN_DIR) {
 async function createCheck() {
   const body = {
     head_sha: GITHUB_SHA,
-    name: checkName,
+    name: GITHUB_ACTION,
     started_at: new Date(),
     status: "in_progress",
   };
@@ -85,7 +83,7 @@ async function runStylelint() {
     output: {
       annotations,
       summary: `${errorCount} error(s), ${warningCount} warning(s) found`,
-      title: checkName,
+      title: GITHUB_ACTION,
     },
   };
 }
@@ -95,7 +93,7 @@ async function updateCheck(id, conclusion, output) {
     completed_at: new Date(),
     conclusion,
     head_sha: GITHUB_SHA,
-    name: checkName,
+    name: GITHUB_ACTION,
     output,
     status: "completed",
   };
